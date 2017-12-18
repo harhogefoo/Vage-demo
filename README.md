@@ -15,3 +15,7 @@ $('.validate').blur((e) => {
 })
 ```
 
+# DEMO
+```bash
+$ yarn start
+```
