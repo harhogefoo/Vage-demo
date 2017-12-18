@@ -1,0 +1,33 @@
+{
+  "name": "vage",
+  "version": "1.0.0",
+  "description": "Simple Validator",
+  "main": "index.js",
+  "repository": "https://github.com/harhogefoo/Vage.git",
+  "author": "harhogefoo",
+  "license": "MIT",
+  "scripts": {
+    "start": "gulp"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "eslint": "^4.10.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-notify": "^3.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "minimist": "^1.2.0",
+    "node-sass-package-importer": "^5.0.0-alpha.17",
+    "webpack": "^3.8.1",
+    "webpack-stream": "^4.0.0"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1"
+  }
+}

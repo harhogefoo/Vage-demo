@@ -1,5 +1,5 @@
 # Vage
-simple validator
+Simple validator
 
 # Usage
 ```index.js
