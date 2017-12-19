@@ -2,6 +2,8 @@
  * Created by shino on 2017/12/19.
  */
 
+import Validator from './Validator'
+
 class TelValidator extends Validator {
   constructor(options) {
     super(options)
@@ -13,3 +15,5 @@ class TelValidator extends Validator {
     return !text.match(this.regex)
   }
 }
+
+export default TelValidator

@@ -71,7 +71,7 @@
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Vage__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_vage_Vage__ = __webpack_require__(2);
 /**
  * Created by shino on 2017/12/19.
  */
@@ -83,7 +83,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_0_jquery___default()(() => {
   __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.validate').blur((e) => {
     const value = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(`input[name=${e.target.name}]`).val()
-    const vage = new __WEBPACK_IMPORTED_MODULE_1__Vage__["a" /* default */]()
+    const vage = new __WEBPACK_IMPORTED_MODULE_1__lib_vage_Vage__["a" /* default */]()
     vage.maxLength(4)
       .minLength(1, {message: 'カスタムメッセージ'})
     if (!vage.validate(value)) {
@@ -10359,51 +10359,8 @@ return jQuery;
 
 "use strict";
 /**
- * Created by shino on 2017/12/18.
+ * Created by harhogefoo on 2017/12/18.
  */
-
-class Validation {
-  constructor(options) {
-    this.message = options.message || 'invalid'
-  }
-}
-
-class MaxLengthValidator extends Validation {
-  constructor(options) {
-    super(options)
-      this.maxLength = options.maxLength || 100
-      this.message = options.message || `${options.maxLength}文字以下で入力して下さい`
-  }
-
-  valid(text) {
-    return text.length <= this.maxLength
-  }
-}
-
-class MinLengthValidator extends Validation {
-  constructor(options) {
-    super(options)
-      this.minLength = options.minLength || 10
-      this.message = options.message || `${options.minLength}文字以上で入力して下さい`
-  }
-
-  valid(text) {
-    return this.minLength <= text.length
-  }
-}
-
-class MaxNumValidator extends Validation {
-  constructor(options) {
-    super(options)
-      this.max = options.max || 100
-      this.message = options.message || `最大値${options.max}を超えています`
-  }
-
-  valid(text) {
-    return this.max < Number(text)
-  }
-}
-
 class Vage {
   constructor() {
     this.validators = []
@@ -10411,40 +10368,91 @@ class Vage {
 
   maxLength(max, options) {
     this.validators.push(new MaxLengthValidator(Object.assign(
-            {maxLength: max},
-            options
-            )))
-      return this
+      {maxLength: max},
+      options
+    )))
+    return this
   }
 
   minLength(min, options) {
     this.validators.push(new MinLengthValidator(Object.assign(
-            {minLength: min},
-            options
-            )))
-      return this
+      {minLength: min},
+      options
+    )))
+    return this
   }
 
   maxNum(max, options) {
     this.validators.push(new MaxNumValidator(Object.assign(
-            {max: max},
-            options
-            )))
+      {max: max},
+      options
+    )))
+    return this
+  }
+
+  notBlank(options) {
+    this.validators.push(new NotBlankValidator(options))
+    return this
+  }
+
+  hasNotHalfSymbol(options) {
+    this.validators.push(new HalfSymbolValidator(Object.assign(
+      {has: false},
+      options
+    )))
+    return this
+  }
+
+  hasNotHalfKana(options) {
+    this.validators.push(new HalfKanaValidator(Object.assign(
+      {has: false},
+      options
+    )))
+    return this
+  }
+
+  hasHalfKana(options) {
+    this.validators.push(new HalfKanaValidator(Object.assign(
+      {has: true},
+      options
+    )))
+    return this
+  }
+
+  hasHalfNum(options) {
+    this.validators.push(new HalfNumValidator(Object.assign(
+      {has: true},
+      options
+    )))
+    return this
+  }
+
+  hasNotHalfNum(options) {
+    this.validators.push(new HalfNumValidator(Object.assign(
+      {has: false},
+      options
+    )))
+    return this
+  }
+
+  // TODO: 未完成Validator
+  typeOfTel(options) {
+    this.validators.push(new TelValidator(options))
+    return this
   }
 
   validate(target) {
     this.messages = []
-      this.validators.forEach((validator) => {
-        if (!validator.valid(target)) {
-          this.messages.push(validator.message)
-        }
-      })
+    this.validators.forEach((validator) => {
+      if (!validator.valid(target)) {
+        this.messages.push(validator.message)
+      }
+    })
     return this.messages.length <= 0
   }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Vage);
-
 
 
 /***/ })

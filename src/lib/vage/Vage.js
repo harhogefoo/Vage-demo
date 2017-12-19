@@ -1,6 +1,18 @@
 /**
  * Created by harhogefoo on 2017/12/18.
  */
+
+// TODO: gt, lt, ge, le
+// TODO: tel, email, customPasswordValidator
+import MaxLengthValidator from './validators/MaxLengthValidator'
+import MinLengthValidator from './validators/MinLengthValidator'
+import HalfNumValidator from './validators/HalfNumValidator'
+import HalfSymbolValidator from './validators/HalfSymbolValidator'
+import HalfKanaValidator from './validators/HalfKanaValidator'
+import MaxNumValidator from './validators/MaxNumValidator'
+import NotBlankValidator from './validators/NotBlankValidator'
+import TelValidator from './validators/TelValidator'
+
 class Vage {
   constructor() {
     this.validators = []

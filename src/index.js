@@ -4,7 +4,7 @@
 
 import $ from 'jquery'
 
-import Vage from './Vage'
+import Vage from './lib/vage/Vage'
 
 $(() => {
   $('.validate').blur((e) => {

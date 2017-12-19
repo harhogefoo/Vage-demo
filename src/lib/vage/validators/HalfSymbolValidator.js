@@ -2,6 +2,9 @@
  * Created by shino on 2017/12/19.
  */
 
+
+import Validator from './Validator'
+
 class HalfSymbolValidator extends Validator {
   constructor(options) {
     super(options)
@@ -15,3 +18,5 @@ class HalfSymbolValidator extends Validator {
     return this.regex.test(text) === this.has
   }
 }
+
+export default HalfSymbolValidator

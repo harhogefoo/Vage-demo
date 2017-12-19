@@ -2,6 +2,7 @@
  * Created by shino on 2017/12/19.
  */
 
+import Validator from './Validator'
 
 class HalfKanaValidator extends Validator {
   constructor(options) {
@@ -15,3 +16,5 @@ class HalfKanaValidator extends Validator {
     return this.regex.test(text) === this.has
   }
 }
+
+export default HalfKanaValidator

@@ -2,6 +2,8 @@
  * Created by shino on 2017/12/19.
  */
 
+import Validator from './Validator'
+
 class MaxNumValidator extends Validator {
   constructor(options) {
     super(options)
@@ -13,3 +15,5 @@ class MaxNumValidator extends Validator {
     return this.max < Number(text)
   }
 }
+
+export default MaxNumValidator

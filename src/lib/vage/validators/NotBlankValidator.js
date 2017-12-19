@@ -2,6 +2,8 @@
  * Created by shino on 2017/12/19.
  */
 
+import Validator from './Validator'
+
 class NotBlankValidator extends Validator {
   constructor(options) {
     super(options)
@@ -12,3 +14,5 @@ class NotBlankValidator extends Validator {
     return text.length !== 0
   }
 }
+
+export default NotBlankValidator
