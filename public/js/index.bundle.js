@@ -108,6 +108,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 const formType = {
   text: 'text',
   select: 'select',
+  radioSameOrDiff: 'radioSameOrDiff',
 }
 
 const validationMap = {
@@ -133,8 +134,12 @@ const validationMap = {
     }
   },
   why_diff: {
-    form_Type: formType.radioSameOrDiff
-
+    radioName: 'type_same_or_diff',
+    formType: formType.text,
+    fn: validateName,
+    messages: {
+      blank: '入力して下さい'
+    }
   }
 }
 
@@ -142,10 +147,13 @@ __WEBPACK_IMPORTED_MODULE_0_jquery___default()(() => {
   for (const name in validationMap) {
     const $elem = getElement(name)
     $elem.blur(() => {
+      const shouldValidate = checkRadioValue(name)
       const value = $elem.val()
-      const vage = validationMap[name].fn(validationMap[name].messages)
-      if (!vage.validate(value)) {
-        console.log(vage.messages)
+      if (shouldValidate) {
+        const vage = validationMap[name].fn(validationMap[name].messages)
+        if (!vage.validate(value)) {
+          console.log(vage.messages)
+        }
       }
     })
   }
@@ -159,6 +167,24 @@ function getElement(name) {
     case formType.text:
       return __WEBPACK_IMPORTED_MODULE_0_jquery___default()(`input[name=${name}]`)
   }
+}
+
+function checkRadioValue(name) {
+  // radioによるチェック
+  const radioName = validationMap[name].radioName
+  let shouldValidate = true
+  if (typeof radioName !== 'undefined' && shouldNotValidateByRadio(radioName)) {
+    console.log(radioName)
+    shouldValidate = false
+  }
+  return shouldValidate
+}
+
+// value: 0が選択されていればvalidationをする必要がない
+function shouldNotValidateByRadio(radioName) {
+  const val = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(`input[name=${radioName}]:checked`).val()
+  console.log(val)
+  return val === '0'
 }
 
 function validateName(messages) {
