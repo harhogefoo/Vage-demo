@@ -114,9 +114,27 @@ const validationMap = {
   prefectures: {
     formType: formType.select,
     fn: validateSelectBox,
-    message: {
+    messages: {
 
     }
+  },
+  last_name: {
+    formType: formType.text,
+    fn: validateName,
+    messages: {
+      blank: '姓を入力して下さい'
+    },
+  },
+  first_name: {
+    formType: formType.text,
+    fn: validateName,
+    messages: {
+      blank: '名を入力して下さい'
+    }
+  },
+  why_diff: {
+    form_Type: formType.radioSameOrDiff
+
   }
 }
 
@@ -125,23 +143,12 @@ __WEBPACK_IMPORTED_MODULE_0_jquery___default()(() => {
     const $elem = getElement(name)
     $elem.blur(() => {
       const value = $elem.val()
-      const vage = validationMap[name].fn()
+      const vage = validationMap[name].fn(validationMap[name].messages)
       if (!vage.validate(value)) {
         console.log(vage.messages)
       }
     })
   }
-
-  __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.validate').blur((e) => {
-    const value = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(`input[name=${e.target.name}]`).val()
-    const vage = new __WEBPACK_IMPORTED_MODULE_1__lib_vage_Vage__["a" /* default */]()
-    vage.maxLength(4)
-      .minLength(1)
-      .notBlank()
-    if (!vage.validate(value)) {
-      console.log(vage.messages)
-    }
-  })
 })
 
 function getElement(name) {
@@ -154,9 +161,15 @@ function getElement(name) {
   }
 }
 
+function validateName(messages) {
+  return new __WEBPACK_IMPORTED_MODULE_1__lib_vage_Vage__["a" /* default */]()
+    .maxLength(4)
+    .minLength(1)
+    .notBlank( {messages: messages.blank} )
+}
+
 function validateSelectBox(messages) {
-  const vage = new __WEBPACK_IMPORTED_MODULE_1__lib_vage_Vage__["a" /* default */]()
-  return vage.isSelectBoxSelected({ message:'選択して下さい'})
+  return new __WEBPACK_IMPORTED_MODULE_1__lib_vage_Vage__["a" /* default */]().isSelectBoxSelected({ message:'選択して下さい'})
 }
 
 
