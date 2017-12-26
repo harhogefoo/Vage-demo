@@ -14,7 +14,7 @@ class HalfSymbolValidator extends Validator {
   }
 
   // 半角記号を含む
-  valid(text) {
+  validate(text) {
     return this.regex.test(text) === this.has
   }
 }

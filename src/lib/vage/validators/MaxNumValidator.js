@@ -1,7 +1,3 @@
-/**
- * Created by shino on 2017/12/19.
- */
-
 import Validator from './Validator'
 
 class MaxNumValidator extends Validator {
@@ -11,7 +7,7 @@ class MaxNumValidator extends Validator {
     this.message = options.message || `最大値${options.max}を超えています`
   }
 
-  valid(text) {
+  validate(text) {
     return this.max < Number(text)
   }
 }

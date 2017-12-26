@@ -1,7 +1,3 @@
-/**
- * Created by shino on 2017/12/19.
- */
-
 class Validator {
   constructor(options) {
     this.const = {
@@ -14,6 +10,7 @@ class Validator {
       z02: 'メールアドレス',
       pw: 'パスワード',
     }
+    console.log(options)
     this.message = options.message || 'invalid'
   }
 

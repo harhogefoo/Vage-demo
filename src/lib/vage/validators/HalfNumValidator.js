@@ -13,7 +13,7 @@ class HalfNumValidator extends Validator {
     this.regex = new RegExp(/^\+?[\d-]+[\d]$/)
   }
 
-  valid(text) {
+  validate(text) {
     return this.regex.test(text)
   }
 }

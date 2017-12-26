@@ -1,7 +1,3 @@
-/**
- * Created by shino on 2017/12/19.
- */
-
 import Validator from './Validator'
 
 class TelValidator extends Validator {
@@ -11,7 +7,7 @@ class TelValidator extends Validator {
     this.regex = new RegExp(/^\+?[\d-]+[\d]$/)
   }
 
-  valid(text) {
+  validate(text) {
     return !text.match(this.regex)
   }
 }

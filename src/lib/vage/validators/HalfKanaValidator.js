@@ -12,7 +12,7 @@ class HalfKanaValidator extends Validator {
     this.regex = new RegExp(/[ｱ-ﾝ]/g)
   }
 
-  valid(text) {
+  validate(text) {
     return this.regex.test(text) === this.has
   }
 }

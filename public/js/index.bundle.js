@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -68,33 +68,100 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+class Validator {
+  constructor(options) {
+    this.const = {
+      c01: '半角数字',
+      c02: '半角英字',
+      c03: '半角記号',
+      c04: '半角カナ',
+      c05: '全角文字',
+      z01: '全角カタカナ',
+      z02: 'メールアドレス',
+      pw: 'パスワード',
+    }
+    console.log(options)
+    this.message = options.message || 'invalid'
+  }
+
+  validate() {
+
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Validator);
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_vage_Vage__ = __webpack_require__(2);
-/**
- * Created by shino on 2017/12/19.
- */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_vage_Vage__ = __webpack_require__(3);
 
 
 
 
+const formType = {
+  text: 'text',
+  select: 'select',
+}
+
+const validationMap = {
+  prefectures: {
+    formType: formType.select,
+    fn: validateSelectBox,
+    message: {
+
+    }
+  }
+}
 
 __WEBPACK_IMPORTED_MODULE_0_jquery___default()(() => {
+  for (const name in validationMap) {
+    const $elem = getElement(name)
+    $elem.blur(() => {
+      const value = $elem.val()
+      const vage = validationMap[name].fn()
+      if (!vage.validate(value)) {
+        console.log(vage.messages)
+      }
+    })
+  }
+
   __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.validate').blur((e) => {
     const value = __WEBPACK_IMPORTED_MODULE_0_jquery___default()(`input[name=${e.target.name}]`).val()
     const vage = new __WEBPACK_IMPORTED_MODULE_1__lib_vage_Vage__["a" /* default */]()
     vage.maxLength(4)
-      .minLength(1, {message: 'カスタムメッセージ'})
+      .minLength(1)
+      .notBlank()
     if (!vage.validate(value)) {
       console.log(vage.messages)
     }
   })
 })
 
+function getElement(name) {
+  const type = validationMap[name].formType
+  switch (type) {
+    case formType.select:
+      return __WEBPACK_IMPORTED_MODULE_0_jquery___default()(`select[name=${name}]`)
+    case formType.text:
+      return __WEBPACK_IMPORTED_MODULE_0_jquery___default()(`input[name=${name}]`)
+  }
+}
+
+function validateSelectBox(messages) {
+  const vage = new __WEBPACK_IMPORTED_MODULE_1__lib_vage_Vage__["a" /* default */]()
+  return vage.isSelectBoxSelected({ message:'選択して下さい'})
+}
+
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10354,81 +10421,100 @@ return jQuery;
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/**
- * Created by harhogefoo on 2017/12/18.
- */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__validators_MaxLengthValidator__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__validators_MinLengthValidator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__validators_HalfNumValidator__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validators_HalfSymbolValidator__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__validators_HalfKanaValidator__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__validators_MaxNumValidator__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__validators_NotBlankValidator__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__validators_TelValidator__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__validators_SelectBoxValidator__ = __webpack_require__(12);
+// TODO: gt, lt, ge, le
+// TODO: tel, email, customPasswordValidator
+
+
+
+
+
+
+
+
+
+
 class Vage {
   constructor() {
     this.validators = []
+    this.messages = []
   }
 
-  maxLength(max, options) {
-    this.validators.push(new MaxLengthValidator(Object.assign(
+  maxLength(max, options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_0__validators_MaxLengthValidator__["a" /* default */](Object.assign(
       {maxLength: max},
       options
     )))
     return this
   }
 
-  minLength(min, options) {
-    this.validators.push(new MinLengthValidator(Object.assign(
+  minLength(min, options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_1__validators_MinLengthValidator__["a" /* default */](Object.assign(
       {minLength: min},
       options
     )))
     return this
   }
 
-  maxNum(max, options) {
-    this.validators.push(new MaxNumValidator(Object.assign(
+  maxNum(max, options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_5__validators_MaxNumValidator__["a" /* default */](Object.assign(
       {max: max},
       options
     )))
     return this
   }
 
-  notBlank(options) {
-    this.validators.push(new NotBlankValidator(options))
+  notBlank(options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_6__validators_NotBlankValidator__["a" /* default */](options))
     return this
   }
 
-  hasNotHalfSymbol(options) {
-    this.validators.push(new HalfSymbolValidator(Object.assign(
+  hasNotHalfSymbol(options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_3__validators_HalfSymbolValidator__["a" /* default */](Object.assign(
       {has: false},
       options
     )))
     return this
   }
 
-  hasNotHalfKana(options) {
-    this.validators.push(new HalfKanaValidator(Object.assign(
+  hasNotHalfKana(options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_4__validators_HalfKanaValidator__["a" /* default */](Object.assign(
       {has: false},
       options
     )))
     return this
   }
 
-  hasHalfKana(options) {
-    this.validators.push(new HalfKanaValidator(Object.assign(
+  hasHalfKana(options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_4__validators_HalfKanaValidator__["a" /* default */](Object.assign(
       {has: true},
       options
     )))
     return this
   }
 
-  hasHalfNum(options) {
-    this.validators.push(new HalfNumValidator(Object.assign(
+  hasHalfNum(options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_2__validators_HalfNumValidator__["a" /* default */](Object.assign(
       {has: true},
       options
     )))
     return this
   }
 
-  hasNotHalfNum(options) {
-    this.validators.push(new HalfNumValidator(Object.assign(
+  hasNotHalfNum(options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_2__validators_HalfNumValidator__["a" /* default */](Object.assign(
       {has: false},
       options
     )))
@@ -10436,15 +10522,19 @@ class Vage {
   }
 
   // TODO: 未完成Validator
-  typeOfTel(options) {
-    this.validators.push(new TelValidator(options))
+  typeOfTel(options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_7__validators_TelValidator__["a" /* default */](options))
+    return this
+  }
+
+  isSelectBoxSelected(options = {}) {
+    this.validators.push(new __WEBPACK_IMPORTED_MODULE_8__validators_SelectBoxValidator__["a" /* default */](options))
     return this
   }
 
   validate(target) {
-    this.messages = []
     this.validators.forEach((validator) => {
-      if (!validator.valid(target)) {
+      if (!validator.validate(target)) {
         this.messages.push(validator.message)
       }
     })
@@ -10453,6 +10543,242 @@ class Vage {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Vage);
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator__ = __webpack_require__(0);
+/**
+ * Created by shino on 2017/12/19.
+ */
+
+
+
+class MaxLengthValidator extends __WEBPACK_IMPORTED_MODULE_0__Validator__["a" /* default */] {
+  constructor(options) {
+    super(options)
+    this.maxLength = options.maxLength || 100
+    this.message = options.message || `${options.maxLength}文字以内で入力して下さい。`
+  }
+
+  validate(text) {
+    return text.length <= this.maxLength
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (MaxLengthValidator);
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator__ = __webpack_require__(0);
+/**
+ * Created by shino on 2017/12/19.
+ */
+
+
+
+class MinLengthValidator extends __WEBPACK_IMPORTED_MODULE_0__Validator__["a" /* default */] {
+  constructor(options) {
+    super(options)
+    this.minLength = options.minLength || 10
+    this.message = options.message || `${options.minLength}文字以上で入力して下さい。`
+  }
+
+  validate(text) {
+    return this.minLength <= text.length
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (MinLengthValidator);
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator__ = __webpack_require__(0);
+/**
+ * Created by shino on 2017/12/19.
+ */
+
+
+
+
+class HalfNumValidator extends __WEBPACK_IMPORTED_MODULE_0__Validator__["a" /* default */] {
+  constructor(options) {
+    super(options)
+    this.message = options.message || '「半角数字」で入力してください。'
+    this.has = options.has || false // デフォルト: 半角数字を含んでいないこと
+    this.regex = new RegExp(/^\+?[\d-]+[\d]$/)
+  }
+
+  validate(text) {
+    return this.regex.test(text)
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (HalfNumValidator);
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator__ = __webpack_require__(0);
+/**
+ * Created by shino on 2017/12/19.
+ */
+
+
+
+
+class HalfSymbolValidator extends __WEBPACK_IMPORTED_MODULE_0__Validator__["a" /* default */] {
+  constructor(options) {
+    super(options)
+    this.message = options.message || `「${iniError.c01} 」「${iniError.c02}」「${iniError.c03}」「${iniError.c05}」で入力してください。`
+    this.has = options.has || false  // デフォルト: 半角記号を含んでいないこと
+    this.regex = new RegExp(/[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~]/g)
+  }
+
+  // 半角記号を含む
+  validate(text) {
+    return this.regex.test(text) === this.has
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (HalfSymbolValidator);
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator__ = __webpack_require__(0);
+/**
+ * Created by shino on 2017/12/19.
+ */
+
+
+
+class HalfKanaValidator extends __WEBPACK_IMPORTED_MODULE_0__Validator__["a" /* default */] {
+  constructor(options) {
+    super(options)// 半角カナ
+    this.message = options.message || `「${iniError.c01} 」「${iniError.c02}」「${iniError.c03}」「${iniError.c05}」で入力してください。`
+    this.has = options.has || false  // デフォルト: 半角カナを含んでいないこと
+    this.regex = new RegExp(/[ｱ-ﾝ]/g)
+  }
+
+  validate(text) {
+    return this.regex.test(text) === this.has
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (HalfKanaValidator);
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator__ = __webpack_require__(0);
+
+
+class MaxNumValidator extends __WEBPACK_IMPORTED_MODULE_0__Validator__["a" /* default */] {
+  constructor(options) {
+    super(options)
+    this.max = options.max || 100
+    this.message = options.message || `最大値${options.max}を超えています`
+  }
+
+  validate(text) {
+    return this.max < Number(text)
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (MaxNumValidator);
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator__ = __webpack_require__(0);
+/**
+ * Created by shino on 2017/12/19.
+ */
+
+
+
+class NotBlankValidator extends __WEBPACK_IMPORTED_MODULE_0__Validator__["a" /* default */] {
+  constructor(options) {
+    super(options)
+    this.message = options.message || `入力値が空です`
+  }
+
+  validate(text) {
+    return text.length !== 0
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (NotBlankValidator);
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator__ = __webpack_require__(0);
+
+
+class TelValidator extends __WEBPACK_IMPORTED_MODULE_0__Validator__["a" /* default */] {
+  constructor(options) {
+    super(options)
+    this.message = options.message || `不正な電話番号の形式です。`
+    this.regex = new RegExp(/^\+?[\d-]+[\d]$/)
+  }
+
+  validate(text) {
+    return !text.match(this.regex)
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (TelValidator);
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Validator__ = __webpack_require__(0);
+
+
+class SelectBoxValidator extends __WEBPACK_IMPORTED_MODULE_0__Validator__["a" /* default */] {
+  constructor(options) {
+    super(options)
+    this.message = options.message || `選択して下さい。`
+  }
+
+  // 半角記号を含む
+  validate(text) {
+    return text !== '0'
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (SelectBoxValidator);
 
 
 /***/ })

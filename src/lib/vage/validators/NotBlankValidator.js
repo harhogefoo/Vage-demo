@@ -10,7 +10,7 @@ class NotBlankValidator extends Validator {
     this.message = options.message || `入力値が空です`
   }
 
-  valid(text) {
+  validate(text) {
     return text.length !== 0
   }
 }

@@ -1,7 +1,3 @@
-/**
- * Created by harhogefoo on 2017/12/18.
- */
-
 // TODO: gt, lt, ge, le
 // TODO: tel, email, customPasswordValidator
 import MaxLengthValidator from './validators/MaxLengthValidator'
@@ -12,13 +8,15 @@ import HalfKanaValidator from './validators/HalfKanaValidator'
 import MaxNumValidator from './validators/MaxNumValidator'
 import NotBlankValidator from './validators/NotBlankValidator'
 import TelValidator from './validators/TelValidator'
+import SelectBoxValidator from './validators/SelectBoxValidator'
 
 class Vage {
   constructor() {
     this.validators = []
+    this.messages = []
   }
 
-  maxLength(max, options) {
+  maxLength(max, options = {}) {
     this.validators.push(new MaxLengthValidator(Object.assign(
       {maxLength: max},
       options
@@ -26,7 +24,7 @@ class Vage {
     return this
   }
 
-  minLength(min, options) {
+  minLength(min, options = {}) {
     this.validators.push(new MinLengthValidator(Object.assign(
       {minLength: min},
       options
@@ -34,7 +32,7 @@ class Vage {
     return this
   }
 
-  maxNum(max, options) {
+  maxNum(max, options = {}) {
     this.validators.push(new MaxNumValidator(Object.assign(
       {max: max},
       options
@@ -42,12 +40,12 @@ class Vage {
     return this
   }
 
-  notBlank(options) {
+  notBlank(options = {}) {
     this.validators.push(new NotBlankValidator(options))
     return this
   }
 
-  hasNotHalfSymbol(options) {
+  hasNotHalfSymbol(options = {}) {
     this.validators.push(new HalfSymbolValidator(Object.assign(
       {has: false},
       options
@@ -55,7 +53,7 @@ class Vage {
     return this
   }
 
-  hasNotHalfKana(options) {
+  hasNotHalfKana(options = {}) {
     this.validators.push(new HalfKanaValidator(Object.assign(
       {has: false},
       options
@@ -63,7 +61,7 @@ class Vage {
     return this
   }
 
-  hasHalfKana(options) {
+  hasHalfKana(options = {}) {
     this.validators.push(new HalfKanaValidator(Object.assign(
       {has: true},
       options
@@ -71,7 +69,7 @@ class Vage {
     return this
   }
 
-  hasHalfNum(options) {
+  hasHalfNum(options = {}) {
     this.validators.push(new HalfNumValidator(Object.assign(
       {has: true},
       options
@@ -79,7 +77,7 @@ class Vage {
     return this
   }
 
-  hasNotHalfNum(options) {
+  hasNotHalfNum(options = {}) {
     this.validators.push(new HalfNumValidator(Object.assign(
       {has: false},
       options
@@ -88,15 +86,19 @@ class Vage {
   }
 
   // TODO: 未完成Validator
-  typeOfTel(options) {
+  typeOfTel(options = {}) {
     this.validators.push(new TelValidator(options))
     return this
   }
 
+  isSelectBoxSelected(options = {}) {
+    this.validators.push(new SelectBoxValidator(options))
+    return this
+  }
+
   validate(target) {
-    this.messages = []
     this.validators.forEach((validator) => {
-      if (!validator.valid(target)) {
+      if (!validator.validate(target)) {
         this.messages.push(validator.message)
       }
     })
